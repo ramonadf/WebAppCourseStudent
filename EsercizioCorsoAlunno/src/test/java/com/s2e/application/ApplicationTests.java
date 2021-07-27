@@ -10,7 +10,6 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.ContentType;
@@ -20,8 +19,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.s2e.application.model.Course;
 import com.s2e.application.model.Student;
@@ -105,9 +102,9 @@ class ApplicationTests {
 		HttpUriRequest request = new HttpDelete("http://localhost:4202/courses" + idTest);
 		HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
 		assertThat(httpResponse.getStatusLine().getStatusCode(), equalTo(HttpStatus.SC_OK));
-		Student deleted = null;
+		Course deleted = null;
 		try {
-			deleted = studentRepo.getById(idTest);
+			deleted = courseRepo.getById(idTest);
 		} catch (Exception e) {
 		}
 		assertEquals(deleted, null);
@@ -159,6 +156,22 @@ class ApplicationTests {
 		assertThat(httpResponse.getStatusLine().getStatusCode(), equalTo(HttpStatus.SC_OK));
 	}
 	
+	@Test //@DeleteMapping("/courses/{course_id}/students/{student_id}")
+	void givenStudentDeleteFromCourse_deleteById() throws ClientProtocolException, IOException {
+
+		int idTestCourse = 5;
+		int idTestStudent = 3;
+		HttpUriRequest request = new HttpDelete("http://localhost:4202/courses" + idTestCourse + "/students/" + idTestStudent);
+		HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
+		assertThat(httpResponse.getStatusLine().getStatusCode(), equalTo(HttpStatus.SC_OK));
+		Student deleted = null;
+		try {
+			deleted = studentRepo.getById(idTestStudent);
+		} catch (Exception e) {
+		}
+		assertEquals(deleted, null);
+
+	}
 
 	
 
