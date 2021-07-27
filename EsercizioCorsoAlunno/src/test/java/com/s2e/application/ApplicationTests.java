@@ -29,6 +29,7 @@ import static org.junit.Assert.*;
 
 @SpringBootTest
 class ApplicationTests {
+	
 
 	@Autowired
 	StudentRepository studentRepo;
