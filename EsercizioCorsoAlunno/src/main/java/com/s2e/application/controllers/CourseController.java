@@ -27,7 +27,7 @@ public class CourseController {
 	public Collection<Course> getAllCourse() {
 		return repo.findAll();
 	}
-//upload
+
 	@PostMapping("/courses")
 	public void saveCourse(@RequestBody Course course) {
 		repo.save(course);
